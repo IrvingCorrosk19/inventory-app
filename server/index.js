@@ -16,7 +16,6 @@ const fs = require('fs');
 const path = require('path');
 const db = require('./config/database');
 
-// Configuración de variables de entorno
 dotenv.config();
 
 const app = express();
@@ -31,32 +30,35 @@ app.use((req, res, next) => {
   next();
 });
 
-// Configuración CORS más detallada
+// CORS
 app.use(cors({
-  origin: '*', // Permitir todas las conexiones durante el desarrollo
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
-// Middleware
 app.use(express.json());
 
-// Middleware para manejar errores
+// Middleware de errores
 app.use((err, req, res, next) => {
   console.error('Error en la aplicación:', err);
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-// Ejecutar script de migración
+//  Migración robusta
 const runMigration = async () => {
   try {
-    const migrationPath = path.join(__dirname, '..', 'migration.sql');
+    const migrationPath = path.join(__dirname, 'migration.sql');
+    if (!fs.existsSync(migrationPath)) {
+      console.warn(' migration.sql no encontrado. Se omite la migración.');
+      return;
+    }
     const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
     await db.query(migrationSQL);
-    console.log('Migración ejecutada exitosamente');
+    console.log(' Migración ejecutada exitosamente');
   } catch (error) {
-    console.error('Error al ejecutar la migración:', error);
+    console.error(' Error al ejecutar la migración:', error);
   }
 };
 
@@ -73,16 +75,14 @@ app.use('/api/audit-logs', auditLogRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
-// Ruta básica
+// Ruta raíz
 app.get('/', (req, res) => {
   res.json({ message: 'Bienvenido a la API de Inventario' });
 });
 
-// Puerto
-const PORT = process.env.PORT || 5000;
-
 // Iniciar servidor
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
   await runMigration();
-}); 
+});
