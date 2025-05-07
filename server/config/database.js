@@ -10,13 +10,11 @@ const pool = new Pool({
   }
 });
 
-// Manejo de errores
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
   process.exit(-1);
 });
 
-// Prueba de conexión
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
     console.error('Error connecting to the database:', err);
