@@ -6,22 +6,22 @@ dotenv.config();
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false // Necesario para Render
+    rejectUnauthorized: false
   }
 });
 
-// Manejador de errores
+// Manejo de errores
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
   process.exit(-1);
 });
 
-// Probar conexión
+// Prueba de conexión
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
     console.error('Error connecting to the database:', err);
   } else {
-    console.log(' Successfully connected to the database');
+    console.log('Successfully connected to the database');
   }
 });
 
