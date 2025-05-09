@@ -21,7 +21,7 @@ import {
 } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
-const API_URL = 'http://localhost:5000/api/auth/login';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/auth/login`;
 
 function Login() {
   const theme = useTheme();
@@ -44,22 +44,30 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     try {
+      console.log('Intentando login con:', formData);
+      console.log('URL:', API_URL);
+      
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
+      console.log('Respuesta recibida:', res.status);
+      
       if (res.ok) {
         const data = await res.json();
+        console.log('Datos recibidos:', data);
         localStorage.setItem('token', data.token);
         toast.success('¡Bienvenido!');
         navigate('/dashboard');
       } else {
         const errorData = await res.json().catch(() => ({ message: 'Error desconocido' }));
+        console.error('Error en la respuesta:', errorData);
         toast.error(errorData.message || 'Usuario o contraseña incorrectos');
       }
     } catch (error) {
+      console.error('Error completo:', error);
       toast.error('Error de conexión con el servidor');
     }
     setLoading(false);
