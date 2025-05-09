@@ -5,7 +5,7 @@ export const API_URLS = {
     login: `${API_BASE_URL}/api/auth/login`,
   },
   dashboard: {
-    stats: `${API_BASE_URL}/api/dashboard/stats`,
+    stats: `${API_BASE_URL}/api/dashboard`,
   },
   products: {
     list: `${API_BASE_URL}/api/products`,
@@ -32,7 +32,9 @@ export const API_URLS = {
   users: {
     list: `${API_BASE_URL}/api/users`,
   },
-  barcode: `${API_BASE_URL}/api/barcode`,
+  barcode: {
+    products: `${API_BASE_URL}/api/barcode/products`,
+  },
 };
 
 export const fetchWithAuth = async (url, options = {}) => {

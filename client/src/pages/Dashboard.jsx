@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { API_URLS } from '../config/api';
+import { API_URLS, fetchWithAuth } from '../config/api';
 import {
   Box,
   Grid,
@@ -42,12 +42,7 @@ function Dashboard() {
 
   const fetchDashboardData = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(API_URL, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await fetchWithAuth(API_URL);
 
       if (!response.ok) {
         throw new Error('Error al obtener datos del dashboard');
