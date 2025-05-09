@@ -20,8 +20,9 @@ import {
 } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { toast } from 'react-toastify';
+import { API_URLS, fetchWithAuth } from '../config/api';
 
-const API_URL = 'http://localhost:5000/api/categories';
+const API_URL = API_URLS.categories.list;
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -39,7 +40,7 @@ function Categories() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch(API_URL);
+      const res = await fetchWithAuth(API_URL);
       const data = await res.json();
       setCategories(data);
     } catch (error) {

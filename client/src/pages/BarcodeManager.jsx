@@ -21,8 +21,9 @@ import {
 } from '@mui/material';
 import { Refresh as RefreshIcon, Print as PrintIcon } from '@mui/icons-material';
 import { toast } from 'react-toastify';
+import { API_URLS, fetchWithAuth } from '../config/api';
 
-const API_URL = 'http://localhost:5000/api'; // Ajusta esto según tu configuración
+const API_URL = API_URLS.barcode;
 
 // Datos de ejemplo para cuando el backend no esté disponible
 const sampleProducts = [

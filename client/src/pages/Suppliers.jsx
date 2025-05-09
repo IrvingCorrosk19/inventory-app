@@ -21,8 +21,9 @@ import {
 } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { toast } from 'react-toastify';
+import { API_URLS, fetchWithAuth } from '../config/api';
 
-const API_URL = 'http://localhost:5000/api/suppliers';
+const API_URL = API_URLS.suppliers.list;
 
 function Suppliers() {
   const [suppliers, setSuppliers] = useState([]);

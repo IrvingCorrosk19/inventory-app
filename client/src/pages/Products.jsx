@@ -25,8 +25,9 @@ import {
 } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import { toast } from 'react-toastify';
+import { API_URLS, fetchWithAuth } from '../config/api';
 
-const API_URL = 'http://localhost:5000/api/products';
+const API_URL = API_URLS.products.list;
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -96,11 +97,7 @@ function Products() {
         return;
       }
 
-      const res = await fetch('http://localhost:5000/api/categories', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetchWithAuth(API_URLS.categories.list);
       
       if (res.status === 401) {
         toast.error('Sesión expirada');
@@ -124,11 +121,7 @@ function Products() {
         return;
       }
 
-      const res = await fetch('http://localhost:5000/api/suppliers', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetchWithAuth(API_URLS.suppliers.list);
       
       if (res.status === 401) {
         toast.error('Sesión expirada');

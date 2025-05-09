@@ -41,9 +41,10 @@ import { toast } from 'react-toastify';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { API_URLS, fetchWithAuth } from '../config/api';
 
-const API_URL = 'http://localhost:5000/api/inventory';
-const PRODUCTS_API_URL = 'http://localhost:5000/api/products';
+const API_URL = API_URLS.inventory.list;
+const PRODUCTS_API_URL = API_URLS.products.list;
 const movementTypes = ['ENTRY', 'EXIT', 'ADJUSTMENT'];
 
 function Inventory() {
