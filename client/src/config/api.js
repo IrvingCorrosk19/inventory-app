@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = 'https://inventory-app-backend-jzkd.onrender.com';
 
 export const API_URLS = {
   auth: {
