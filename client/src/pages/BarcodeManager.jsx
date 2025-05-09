@@ -23,7 +23,7 @@ import { Refresh as RefreshIcon, Print as PrintIcon } from '@mui/icons-material'
 import { toast } from 'react-toastify';
 import { API_URLS, fetchWithAuth } from '../config/api';
 
-const API_URL = API_URLS.barcode;
+const API_URL = API_URLS.barcode.products;
 
 // Datos de ejemplo para cuando el backend no esté disponible
 const sampleProducts = [
@@ -59,19 +59,15 @@ const BarcodeManager = () => {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem('token');
-      if (!token) {
-        toast.error('No estás autenticado');
-        return;
-      }
-
-      const response = await axios.get(`${API_URL}/products`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
       
-      setProducts(response.data);
+      const response = await fetchWithAuth(API_URL);
+      
+      if (!response.ok) {
+        throw new Error('Error al cargar productos');
+      }
+      
+      const data = await response.json();
+      setProducts(data);
     } catch (err) {
       console.error('Error al cargar productos:', err);
       setError('Error al cargar los productos. Por favor, intenta nuevamente.');
