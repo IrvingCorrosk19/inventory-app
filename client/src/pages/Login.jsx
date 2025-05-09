@@ -21,7 +21,9 @@ import {
 } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/auth/login`;
+const API_URL = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/auth/login`
+  : 'https://inventory-app-backend-jzkd.onrender.com/auth/login';
 
 function Login() {
   const theme = useTheme();
