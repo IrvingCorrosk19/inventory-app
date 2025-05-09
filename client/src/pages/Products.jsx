@@ -55,17 +55,7 @@ function Products() {
 
   const fetchProducts = async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        toast.error('No estás autenticado');
-        return;
-      }
-
-      const res = await fetch(API_URL, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetchWithAuth(API_URL);
       
       if (res.status === 401) {
         toast.error('Sesión expirada');
