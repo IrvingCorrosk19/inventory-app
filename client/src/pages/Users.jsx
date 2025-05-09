@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URLS, fetchWithAuth } from '../config/api';
 import {
   Box,
   Typography,
@@ -26,7 +27,7 @@ import {
 import { DataGrid } from '@mui/x-data-grid';
 import { toast } from 'react-toastify';
 
-const API_URL = 'http://localhost:5000/api/users';
+const API_URL = API_URLS.users.list;
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -46,16 +47,7 @@ function Users() {
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('No hay token de autenticación');
-      }
-
-      const res = await fetch(API_URL, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetchWithAuth(API_URL);
 
       if (res.status === 401) {
         localStorage.removeItem('token');
@@ -141,12 +133,8 @@ function Users() {
   const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
       try {
-        const token = localStorage.getItem('token');
-        const res = await fetch(`${API_URL}/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        const res = await fetchWithAuth(`${API_URL}/${id}`, {
+          method: 'DELETE'
         });
         if (res.ok) {
           toast.success('Usuario eliminado correctamente');
@@ -164,17 +152,10 @@ function Users() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      };
-
       if (selectedUser) {
         // Actualizar usuario existente
-        const res = await fetch(`${API_URL}/${selectedUser.id}`, {
+        const res = await fetchWithAuth(`${API_URL}/${selectedUser.id}`, {
           method: 'PUT',
-          headers,
           body: JSON.stringify(formData),
         });
         if (res.ok) {
@@ -185,9 +166,8 @@ function Users() {
         }
       } else {
         // Crear nuevo usuario
-        const res = await fetch(API_URL, {
+        const res = await fetchWithAuth(API_URL, {
           method: 'POST',
-          headers,
           body: JSON.stringify(formData),
         });
         if (res.ok) {
@@ -199,7 +179,7 @@ function Users() {
       }
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Error al guardar usuario');
+      toast.error('Error al procesar la solicitud');
     }
     handleCloseDialog();
   };
