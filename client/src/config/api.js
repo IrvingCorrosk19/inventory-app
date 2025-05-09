@@ -52,3 +52,46 @@ export const fetchWithAuth = async (url, options = {}) => {
 
   return response;
 };
+
+const fetchProducts = async () => {
+  try {
+    const res = await fetchWithAuth(API_URLS.products.list);
+    const data = await res.json();
+    
+    const mappedProducts = data.map(product => ({
+      ...product,
+      category: product.category_name,
+      supplier: product.supplier_name
+    }));
+    
+    setProducts(mappedProducts);
+  } catch (error) {
+    toast.error('Error al obtener productos');
+  }
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const url = selectedProduct 
+      ? API_URLS.products.update(selectedProduct.id)
+      : API_URLS.products.create;
+    
+    const method = selectedProduct ? 'PUT' : 'POST';
+    
+    const res = await fetchWithAuth(url, {
+      method,
+      body: JSON.stringify(formData)
+    });
+
+    if (res.ok) {
+      toast.success(selectedProduct ? 'Producto actualizado correctamente' : 'Producto creado correctamente');
+      setOpenDialog(false);
+      fetchProducts();
+    } else {
+      toast.error('Error al guardar el producto');
+    }
+  } catch (error) {
+    toast.error('Error al guardar el producto');
+  }
+};
