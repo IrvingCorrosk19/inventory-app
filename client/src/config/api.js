@@ -33,7 +33,7 @@ export const API_URLS = {
     list: `${API_BASE_URL}/api/users`,
   },
   barcode: {
-    products: `${API_BASE_URL}/api/barcode/products`,
+    products: `${API_BASE_URL}/api/products`,
   },
 };
 
