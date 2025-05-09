@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URLS } from '../config/api';
 import {
   Box,
   Grid,
@@ -22,7 +23,8 @@ import {
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { toast } from 'react-toastify';
 
-const API_URL = 'http://localhost:5000/api/dashboard';
+
+const API_URL = API_URLS.dashboard.stats;
 
 function Dashboard() {
   const [loading, setLoading] = useState(true);
