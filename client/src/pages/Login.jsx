@@ -21,7 +21,7 @@ import {
 } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/api/auth/login`;
+const API_URL = `${import.meta.env.VITE_API_URL}/auth/login`;
 
 function Login() {
   const theme = useTheme();
