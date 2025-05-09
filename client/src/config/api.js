@@ -1,3 +1,5 @@
+import { API_URLS, fetchWithAuth } from '../config/api';
+
 const API_BASE_URL = 'https://inventory-app-backend-jzkd.onrender.com';
 
 export const API_URLS = {
@@ -28,6 +30,8 @@ export const API_URLS = {
   inventory: {
     list: `${API_BASE_URL}/api/inventory`,
     update: (id) => `${API_BASE_URL}/api/inventory/${id}`,
+    delete: (id) => `${API_BASE_URL}/api/inventory/${id}`,
+    create: `${API_BASE_URL}/api/inventory`,
   }
 };
 
